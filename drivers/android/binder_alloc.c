@@ -356,7 +356,7 @@ static void debug_low_async_space_locked(struct binder_alloc *alloc, int pid)
 	}
 }
 
-static static inline bool line_is_frozen(struct task_struct *task)
+static inline bool line_is_frozen(struct task_struct *task)
 {
 	return frozen(task) || freezing(task);
 }
