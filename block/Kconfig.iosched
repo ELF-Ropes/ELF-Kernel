@@ -121,8 +121,7 @@ choice
 	config DEFAULT_NOOP
 		bool "No-op"
 
-
-        config DEFAULT_MAPLE
+    config DEFAULT_MAPLE
                 bool "Maple" if IOSCHED_MAPLE=y
 
 	config DEFAULT_SIO
