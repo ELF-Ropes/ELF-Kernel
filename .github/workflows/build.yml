@@ -66,16 +66,15 @@ jobs:
           export CROSS_COMPILE="aarch64-linux-gnu-"
           export CROSS_COMPILE_ARM32="arm-linux-gnueabi-"
           export TRIPLE="aarch64-linux-gnu-"
-          cd $GITHUB_WORKSPACE/workdir/source
           make O=out mido_defconfig
           make -j$(nproc --all) O=out
 
       - name: Pack Kernel
         run: |
-          cp $GITHUB_WORKSPACE/workdir/source/out/arch/arm64/boot/Image.gz-dtb $GITHUB_WORKSPACE/workdir/source/android/Packer/
+          cp out/arch/arm64/boot/Image.gz-dtb android/Packer/
           
       - name: Upload Kernel Package
         uses: actions/upload-artifact@v4
         with:
           name: ELF_Kernel_${{ github.event.inputs.LOCALVERSIONNAME }}_AK3&APM_${{ env.BUILD_TIME }}
-          path: workdir/source/android/Packer/*
+          path: android/Packer/*
