@@ -25,7 +25,9 @@
 #include <linux/rbtree.h>
 #include <linux/seq_file.h>
 #include <linux/vmalloc.h>
+#ifdef REKERNEL
 #include <linux/rekernel.h>
+#endif
 #include <linux/slab.h>
 #include <linux/sched.h>
 #include <linux/list_lru.h>
@@ -356,6 +358,7 @@ static void debug_low_async_space_locked(struct binder_alloc *alloc, int pid)
 	}
 }
 
+#ifdef REKERNEL
 static inline bool line_is_frozen(struct task_struct *task)
 {
 	return frozen(task) || freezing(task);
@@ -401,6 +404,7 @@ static int start_rekernel_server(void) {
   }
   return 0;
 }
+#endif
 static struct binder_buffer *binder_alloc_new_buf_locked(
 				struct binder_alloc *alloc,
 				size_t data_size,
@@ -409,7 +413,9 @@ static struct binder_buffer *binder_alloc_new_buf_locked(
 				int is_async,
 				int pid)
 {
+#ifdef REKERNEL
 	struct task_struct *proc_task = NULL;
+#endif
 	struct rb_node *n = alloc->free_buffers.rb_node;
 	struct binder_buffer *buffer;
 	size_t buffer_size;
@@ -441,6 +447,7 @@ static struct binder_buffer *binder_alloc_new_buf_locked(
 				alloc->pid, extra_buffers_size);
 		return ERR_PTR(-EINVAL);
 	}
+#ifdef REKERNEL
 	if (is_async
 		&& (alloc->free_async_space < 3 * (size + sizeof(struct binder_buffer))
 		|| (alloc->free_async_space < REKERNEL_WARN_AHEAD_SPACE))) {
@@ -455,6 +462,7 @@ static struct binder_buffer *binder_alloc_new_buf_locked(
 			}
 		}
 	}
+#endif
 	if (is_async &&
 	    alloc->free_async_space < size + sizeof(struct binder_buffer)) {
 		binder_alloc_debug(BINDER_DEBUG_BUFFER_ALLOC,
