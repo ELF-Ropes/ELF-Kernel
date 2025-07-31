@@ -77,5 +77,5 @@ jobs:
       - name: Upload Kernel Package
         uses: actions/upload-artifact@v4
         with:
-          name: Mido-EK-${{ github.event.inputs.LOCALVERSIONNAME }}-AK3&APM-${{ env.BUILD_TIME }}
+          name: Mido-EK-NoKSU-${{ github.event.inputs.LOCALVERSIONNAME }}-AK3&APM-${{ env.BUILD_TIME }}
           path: android/Packer/*
