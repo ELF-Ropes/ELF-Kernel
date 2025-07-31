@@ -6,7 +6,7 @@ on:
         LOCALVERSIONNAME:
             description: 'Kernel Local Version Name'
             required: true
-            default: 'Canary' 
+            default: '' 
 
 jobs:
   build:
@@ -76,5 +76,5 @@ jobs:
       - name: Upload Kernel Package
         uses: actions/upload-artifact@v4
         with:
-          name: ELF_Kernel_${{ github.event.inputs.LOCALVERSIONNAME }}_AK3&APM_${{ env.BUILD_TIME }}
+          name: Mido_EK_${{ github.event.inputs.LOCALVERSIONNAME }}_AK3&APM_${{ env.BUILD_TIME }}
           path: android/Packer/*
