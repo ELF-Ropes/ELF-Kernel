@@ -169,7 +169,7 @@
  * - CPP17: https://en.cppreference.com/w/cpp/language/attributes/fallthrough
  * - Else: __attribute__((__fallthrough__))
  */
-#define ZSTD_FALLTHROUGH __attribute__((__fallthrough__))
+#define ZSTD_FALLTHROUGH do { __attribute__((__fallthrough__)); } while (0)
 
 /*-**************************************************************
 *  Alignment
