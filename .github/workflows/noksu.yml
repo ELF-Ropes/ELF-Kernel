@@ -52,6 +52,7 @@ jobs:
           
       - name: Processing Submodules
         run: |
+          git submodule update --init --remote --rebase --recursive android/Installer
           git submodule update --init --remote --rebase --recursive KernelSU
           sed -i -e '$a\'$'\n''CONFIG_KSU=n' arch/arm64/configs/mido_defconfig
 
@@ -72,10 +73,11 @@ jobs:
 
       - name: Pack Kernel
         run: |
-          cp out/arch/arm64/boot/Image.gz-dtb android/Packer/
+          cp out/arch/arm64/boot/Image android/Installer/
+          cp out/arch/arm64/boot/dts/qcom/*.dtb android/Installer/
           
       - name: Upload Kernel Package
         uses: actions/upload-artifact@v4
         with:
-          name: Mido-EK-NoKSU-${{ github.event.inputs.LOCALVERSIONNAME }}-AK3&APM-${{ env.BUILD_TIME }}
-          path: android/Packer/*
+          name: Mido-EK-NoKSU-${{ github.event.inputs.LOCALVERSIONNAME }}-Installer-${{ env.BUILD_TIME }}
+          path: android/Installer/*
